@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<domain xmlns="http://xmlns.oracle.com/weblogic/domain" xmlns:sec="http://xmlns.oracle.com/weblogic/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wls="http://xmlns.oracle.com/weblogic/security/wls" xsi:schemaLocation="http://xmlns.oracle.com/weblogic/security/wls http://xmlns.oracle.com/weblogic/security/wls/1.0/wls.xsd http://xmlns.oracle.com/weblogic/domain http://xmlns.oracle.com/weblogic/1.0/domain.xsd http://xmlns.oracle.com/weblogic/security/xacml http://xmlns.oracle.com/weblogic/security/xacml/1.0/xacml.xsd http://xmlns.oracle.com/weblogic/security/providers/passwordvalidator http://xmlns.oracle.com/weblogic/security/providers/passwordvalidator/1.0/passwordvalidator.xsd http://xmlns.oracle.com/weblogic/security http://xmlns.oracle.com/weblogic/1.0/security.xsd">
+  <name>cicdomain</name>
+  <domain-version>12.1.3.0.0</domain-version>
+  <security-configuration>
+    <name>cicdomain</name>
+    <realm>
+      <sec:authentication-provider xsi:type="wls:default-authenticatorType">
+        <sec:name>DefaultAuthenticator</sec:name>
+      </sec:authentication-provider>
+      <sec:authentication-provider xsi:type="wls:default-identity-asserterType">
+        <sec:name>DefaultIdentityAsserter</sec:name>
+        <sec:active-type>AuthenticatedUser</sec:active-type>
+      </sec:authentication-provider>
+      <sec:role-mapper xmlns:xac="http://xmlns.oracle.com/weblogic/security/xacml" xsi:type="xac:xacml-role-mapperType">
+        <sec:name>XACMLRoleMapper</sec:name>
+      </sec:role-mapper>
+      <sec:authorizer xmlns:xac="http://xmlns.oracle.com/weblogic/security/xacml" xsi:type="xac:xacml-authorizerType">
+        <sec:name>XACMLAuthorizer</sec:name>
+      </sec:authorizer>
+      <sec:adjudicator xsi:type="wls:default-adjudicatorType">
+        <sec:name>DefaultAdjudicator</sec:name>
+      </sec:adjudicator>
+      <sec:credential-mapper xsi:type="wls:default-credential-mapperType">
+        <sec:name>DefaultCredentialMapper</sec:name>
+      </sec:credential-mapper>
+      <sec:cert-path-provider xsi:type="wls:web-logic-cert-path-providerType">
+        <sec:name>WebLogicCertPathProvider</sec:name>
+      </sec:cert-path-provider>
+      <sec:cert-path-builder>WebLogicCertPathProvider</sec:cert-path-builder>
+      <sec:deploy-role-ignored>false</sec:deploy-role-ignored>
+      <sec:deploy-policy-ignored>false</sec:deploy-policy-ignored>
+      <sec:name>myrealm</sec:name>
+      <sec:delegate-m-bean-authorization>true</sec:delegate-m-bean-authorization>
+      <sec:password-validator xmlns:pas="http://xmlns.oracle.com/weblogic/security/providers/passwordvalidator" xsi:type="pas:system-password-validatorType">
+        <sec:name>SystemPasswordValidator</sec:name>
+        <pas:min-password-length>8</pas:min-password-length>
+        <pas:min-numeric-or-special-characters>1</pas:min-numeric-or-special-characters>
+      </sec:password-validator>
+    </realm>
+    <default-realm>myrealm</default-realm>
+    <credential-encrypted></credential-encrypted>
+    <node-manager-username></node-manager-username>
+    <node-manager-password-encrypted></node-manager-password-encrypted>
+  </security-configuration>
+  <server>
+    <name>wladmin</name>
+    <listen-address>wladmin</listen-address>
+  </server>
+  <server>
+    <name>wlserver1</name>
+    <ssl>
+      <enabled>false</enabled>
+    </ssl>
+    <log>
+      <rotation-type>byTime</rotation-type>
+      <file-count>7</file-count>
+    </log>
+    <machine>mach-wlserver1</machine>
+    <listen-port>7001</listen-port>
+    <cluster>wlcluster</cluster>
+    <web-server>
+      <web-server-log>
+        <rotation-type>byTime</rotation-type>
+        <number-of-files-limited>false</number-of-files-limited>
+        <file-count>7</file-count>
+      </web-server-log>
+    </web-server>
+    <listen-address>wlserver1</listen-address>
+    <jta-migratable-target>
+      <user-preferred-server>wlserver1</user-preferred-server>
+      <cluster>wlcluster</cluster>
+    </jta-migratable-target>
+  </server>
+  <cluster>
+    <name>wlcluster</name>
+    <cluster-messaging-mode>unicast</cluster-messaging-mode>
+  </cluster>
+  <production-mode-enabled>true</production-mode-enabled>
+  <embedded-ldap>
+    <name>cicdomain</name>
+    <credential-encrypted></credential-encrypted>
+  </embedded-ldap>
+  <configuration-version>12.1.3.0.0</configuration-version>
+  <machine xsi:type="unix-machineType">
+    <name>mach-wlserver1</name>
+    <node-manager>
+      <listen-address>wlserver1</listen-address>
+    </node-manager>
+  </machine>
+  <migratable-target>
+    <name>wlserver1 (migratable)</name>
+    <notes>This is a system generated default migratable target for a server. Do not delete manually.</notes>
+    <user-preferred-server>wlserver1</user-preferred-server>
+    <cluster>wlcluster</cluster>
+  </migratable-target>
+  <admin-server-name>wladmin</admin-server-name>
+  <jdbc-system-resource>
+    <name>CIC</name>
+    <target>wladmin,wlserver1</target>
+    <descriptor-file-name>jdbc/cic-jdbc.xml</descriptor-file-name>
+  </jdbc-system-resource>
+</domain>
