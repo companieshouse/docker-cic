@@ -21,6 +21,7 @@ RUN $ORACLE_HOME/wlserver/common/bin/wlst.sh -skipWLSModuleScanning container-sc
 COPY --chown=weblogic:weblogic config ${DOMAIN_NAME}/config/
 
 # Set the credentials in the custom config.xml
-RUN $ORACLE_HOME/wlserver/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/set-credentials.py
+RUN $ORACLE_HOME/wlserver/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/set-credentials.py && \
+    chmod 754 container-scripts/*.sh
 
 CMD ["bash"]
