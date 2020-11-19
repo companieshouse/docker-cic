@@ -67,6 +67,7 @@
       </web-server-log>
     </web-server>
     <listen-address>wlserver1</listen-address>
+    <server-start><arguments>@start-args@</arguments></server-start>
     <jta-migratable-target>
       <user-preferred-server>wlserver1</user-preferred-server>
       <cluster>wlcluster</cluster>
