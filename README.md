@@ -6,7 +6,7 @@ Provides builds for cic-domain and cic-app images
 This build extends the ch-weblogic image and adds a WebLogic domain configuration for the Community Interest Companies (CIC) application.
 
 The domain is simple and comprises:
- - Admin server - (intended to run in wladmin container)
+ - Administration server - (intended to run in wladmin container)
  - Single managed server & nodemanager - (intended to run in wlserver1 container)
  - Datasource for CIC database
 
@@ -28,15 +28,15 @@ In order to use the image, a number of environment properties need to be defined
 |DB_USER|Database username|CICDBUSER
 |DB_PASSWORD|Database passwrod|cicdbpassword
 |START_ARGS|Any startup JVM arguments that should be used when starting the managed server|-Dmyarg=true -Dmyotherarg=false
-|MEM_ARGS|JVM arguments for setting the GC and memory settings.  These will be included at the start of the arguments to the JVM| -XX:+UseG1GC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xms712m -Xmx712m
+|USER_MEM_ARGS|JVM arguments for setting the GC and memory settings for the managed server.  These will be included at the start of the arguments to the JVM| -XX:+UseG1GC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xms712m -Xmx712m
 
 ### Docker network
-The Admin server container needs to be able to connect with the managed server container, so a common network is required.  Create this by running:
+The Administration server container needs to be able to connect with the managed server container, so a common network is required.  Create this by running:
 
     docker network create --driver bridge cic-net
 
 ### Starting the Administration server container
-To start the Admin server in a new container, run:
+To start the Administration server in a new container, run:
 
     docker run -d -p 7001:7001 --name wladmin -h wladmin --network cic-net --env-file=cic.properties cic-domain container-scripts/startAdmin.sh
 

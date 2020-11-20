@@ -5,6 +5,9 @@ if [ -z ${ADMIN_PASSWORD+x} ]; then
   exit 1
 fi
 
+# This is the admin server so we will use defaults for memory args
+export USER_MEM_ARGS=
+
 DOMAIN_HOME="/apps/oracle/${DOMAIN_NAME}"
 . ${DOMAIN_HOME}/bin/setDomainEnv.sh
 
