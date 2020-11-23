@@ -31,4 +31,8 @@ ${ORACLE_HOME}/wlserver/common/bin/wlst.sh ${ORACLE_HOME}/container-scripts/set-
 # Set the managed server startup arguments
 sed -i "s/@start-args@/${START_ARGS}/g" ${DOMAIN_HOME}/config/config.xml
 
+# Initialise the security realm with useful default groups
+# This is a temporary measure until the realm import is implemented
+${ORACLE_HOME}/container-scripts/initialiseRealm.sh
+
 ${DOMAIN_HOME}/bin/startWebLogic.sh $*
