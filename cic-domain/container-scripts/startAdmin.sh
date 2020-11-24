@@ -11,9 +11,6 @@ export USER_MEM_ARGS=
 DOMAIN_HOME="/apps/oracle/${DOMAIN_NAME}"
 . ${DOMAIN_HOME}/bin/setDomainEnv.sh
 
-# Remove the default LDAP realm info provided by the image
-rm -rf ${DOMAIN_HOME}/servers/${ADMIN_NAME}/data
-
 # Set the admin password to the one supplied via env var
 java weblogic.security.utils.AdminAccount weblogic $ADMIN_PASSWORD $DOMAIN_HOME/security
 
@@ -30,9 +27,5 @@ ${ORACLE_HOME}/wlserver/common/bin/wlst.sh ${ORACLE_HOME}/container-scripts/set-
 
 # Set the managed server startup arguments
 sed -i "s/@start-args@/${START_ARGS}/g" ${DOMAIN_HOME}/config/config.xml
-
-# Initialise the security realm with useful default groups
-# This is a temporary measure until the realm import is implemented
-${ORACLE_HOME}/container-scripts/initialiseRealm.sh
 
 ${DOMAIN_HOME}/bin/startWebLogic.sh $*
