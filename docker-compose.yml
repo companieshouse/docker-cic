@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  wladmin:
+    container_name: wladmin
+    hostname: wladmin
+    image: 169942020521.dkr.ecr.eu-west-2.amazonaws.com/cic-app
+    ports:
+      - "21001:7001"
+    volumes:
+      - type: bind
+        source: ./running-servers
+        target: /apps/oracle/cicdomain/servers
+    networks:
+      - cic-net
+    env_file: ./cic.properties
+    entrypoint: container-scripts/startAdmin.sh
+  wlserver1:
+    container_name: wlserver1
+    hostname: wlserver1
+    image: 169942020521.dkr.ecr.eu-west-2.amazonaws.com/cic-app
+    ports:
+      - "21011:7001"
+    volumes:
+      - type: bind
+        source: ./running-servers
+        target: /apps/oracle/cicdomain/servers
+    networks:
+      - cic-net
+    env_file: ./cic.properties
+    entrypoint: container-scripts/setConfigAndStartNM.sh
+  wlserver2:
+    container_name: wlserver2
+    hostname: wlserver2
+    image: 169942020521.dkr.ecr.eu-west-2.amazonaws.com/cic-app
+    ports:
+      - "21012:7001"
+    volumes:
+      - type: bind
+        source: ./running-servers
+        target: /apps/oracle/cicdomain/servers
+    networks:
+      - cic-net
+    env_file: ./cic.properties
+    entrypoint: container-scripts/setConfigAndStartNM.sh
+networks:
+  cic-net: 
+
