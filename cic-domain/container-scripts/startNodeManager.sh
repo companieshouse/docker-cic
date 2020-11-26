@@ -20,5 +20,8 @@ sed -i 's/ListenAddress=localhost/ListenAddress='${HOSTNAME}'/g' ${DOMAIN_HOME}/
 echo "username=weblogic" > ${DOMAIN_HOME}/config/nodemanager/nm_password.properties
 echo "password=${ADMIN_PASSWORD}" >> ${DOMAIN_HOME}/config/nodemanager/nm_password.properties
 
+# Update env var name for the nodemanager memory arguments
+sed -i 's/{MEM_ARGS}/{NM_MEM_ARGS}/; s/^MEM_ARGS/NM_MEM_ARGS/' ${ORACLE_HOME}/wlserver/server/bin/startNodeManager.sh
+
 ${DOMAIN_HOME}/bin/startNodeManager.sh $*
 
