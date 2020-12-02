@@ -67,9 +67,41 @@
       </web-server-log>
     </web-server>
     <listen-address>wlserver1</listen-address>
-    <server-start><arguments>@start-args@</arguments></server-start>
+    <server-start>
+    <class-path>.</class-path>
+    <arguments>@start-args@</arguments>
+    </server-start>
     <jta-migratable-target>
       <user-preferred-server>wlserver1</user-preferred-server>
+      <cluster>wlcluster</cluster>
+    </jta-migratable-target>
+  </server>
+  <server>
+    <name>wlserver2</name>
+    <ssl>
+      <enabled>false</enabled>
+    </ssl>
+    <log>
+      <rotation-type>byTime</rotation-type>
+      <file-count>7</file-count>
+    </log>
+    <machine>mach-wlserver2</machine>
+    <listen-port>7001</listen-port>
+    <cluster>wlcluster</cluster>
+    <web-server>
+      <web-server-log>
+        <rotation-type>byTime</rotation-type>
+        <number-of-files-limited>false</number-of-files-limited>
+        <file-count>7</file-count>
+      </web-server-log>
+    </web-server>
+    <listen-address>wlserver2</listen-address>
+    <server-start>
+    <class-path>.</class-path>
+    <arguments>@start-args@</arguments>
+    </server-start>
+    <jta-migratable-target>
+      <user-preferred-server>wlserver2</user-preferred-server>
       <cluster>wlcluster</cluster>
     </jta-migratable-target>
   </server>
@@ -99,16 +131,28 @@
       <listen-address>wlserver1</listen-address>
     </node-manager>
   </machine>
+  <machine xsi:type="unix-machineType">
+    <name>mach-wlserver2</name>
+    <node-manager>
+      <listen-address>wlserver2</listen-address>
+    </node-manager>
+  </machine>
   <migratable-target>
     <name>wlserver1 (migratable)</name>
     <notes>This is a system generated default migratable target for a server. Do not delete manually.</notes>
     <user-preferred-server>wlserver1</user-preferred-server>
     <cluster>wlcluster</cluster>
   </migratable-target>
+  <migratable-target>
+    <name>wlserver2 (migratable)</name>
+    <notes>This is a system generated default migratable target for a server. Do not delete manually.</notes>
+    <user-preferred-server>wlserver2</user-preferred-server>
+    <cluster>wlcluster</cluster>
+  </migratable-target>
   <admin-server-name>wladmin</admin-server-name>
   <jdbc-system-resource>
     <name>CIC</name>
-    <target>wladmin,wlserver1</target>
+    <target>wlcluster</target>
     <descriptor-file-name>jdbc/cic-jdbc.xml</descriptor-file-name>
   </jdbc-system-resource>
 </domain>

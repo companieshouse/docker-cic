@@ -5,14 +5,11 @@ if [ -z ${ADMIN_PASSWORD+x} ]; then
   exit 1
 fi
 
-# This is the admin server so we will use defaults for memory args
-export USER_MEM_ARGS=
+# This is the admin server so we will use different memory args
+export USER_MEM_ARGS=${ADMIN_MEM_ARGS}
 
 DOMAIN_HOME="/apps/oracle/${DOMAIN_NAME}"
 . ${DOMAIN_HOME}/bin/setDomainEnv.sh
-
-# Remove the default LDAP realm info provided by the image
-rm -rf ${DOMAIN_HOME}/servers/${ADMIN_NAME}/data
 
 # Set the admin password to the one supplied via env var
 java weblogic.security.utils.AdminAccount weblogic $ADMIN_PASSWORD $DOMAIN_HOME/security
