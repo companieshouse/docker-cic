@@ -1,5 +1,17 @@
 version: "3.8"
 services:
+  apache:
+    container_name: apache
+    hostname: apache
+    image: ${CIC_APACHE_IMAGE:-cic-apache}
+    ports:
+      - "21000:80"
+    volumes:
+      - type: bind
+        source: ./running-servers/apache
+        target: /usr/local/apache2/logs
+    networks:
+      - cic-net
   wladmin:
     container_name: wladmin
     hostname: wladmin
