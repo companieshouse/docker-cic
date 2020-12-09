@@ -1,7 +1,6 @@
 version: "3.8"
 services:
   apache:
-    container_name: apache
     hostname: apache
     image: ${CIC_APACHE_IMAGE:-cic-apache}
     ports:
@@ -13,7 +12,6 @@ services:
     networks:
       - cic-net
   wladmin:
-    container_name: wladmin
     hostname: wladmin
     image: ${CIC_APP_IMAGE:-cic-app}
     ports:
@@ -27,7 +25,6 @@ services:
     env_file: ./cic.properties
     entrypoint: container-scripts/startAdmin.sh
   wlserver1:
-    container_name: wlserver1
     hostname: wlserver1
     image: ${CIC_APP_IMAGE:-cic-app}
     ports:
@@ -41,7 +38,6 @@ services:
     env_file: ./cic.properties
     entrypoint: container-scripts/setConfigAndStartNM.sh
   wlserver2:
-    container_name: wlserver2
     hostname: wlserver2
     image: ${CIC_APP_IMAGE:-cic-app}
     ports:
@@ -56,4 +52,3 @@ services:
     entrypoint: container-scripts/setConfigAndStartNM.sh
 networks:
   cic-net: 
-
