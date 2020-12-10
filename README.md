@@ -1,13 +1,13 @@
 # docker-cic
-Provides builds for cic-domain and cic-app images
+Provides builds for cic-domain, cic-apache and cic-app images
 
 
 ## cic-domain
-This build extends the ch-weblogic image and adds a WebLogic domain configuration for the Community Interest Companies (CIC) application.
+This build extends the ch-weblogic image and adds a WebLogic domain configuration for the Community Interest Companies (CIC) application.  The image produced by this build can be run, but it is not of practical value and is designed to be further extended by the cic-app build/image.
 
 The domain is simple and comprises:
  - Administration server - (intended to run in wladmin container)
- - Single managed server & nodemanager - (intended to run in wlserver1 container)
+ - Two managed servers & nodemanager - (intended to run in wlserver1 & wlserver2 containers)
  - Datasource for CIC database
 
 ### Building the image
@@ -28,24 +28,63 @@ In order to use the image, a number of environment properties need to be defined
 |DB_USER|Database username|CICDBUSER
 |DB_PASSWORD|Database passwrod|cicdbpassword
 |START_ARGS|Any startup JVM arguments that should be used when starting the managed server|-Dmyarg=true -Dmyotherarg=false
-|USER_MEM_ARGS|JVM arguments for setting the GC and memory settings for the managed server.  These will be included at the start of the arguments to the JVM| -XX:+UseG1GC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xms712m -Xmx712m
+|USER_MEM_ARGS|JVM arguments for setting the GC and memory settings for the managed server.  These will be included at the start of the arguments to the JVM|-XX:+UseG1GC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xms712m -Xmx712m
+|ADMIN_MEM_ARGS|JVM arguments for setting the GC and memory settings for the admin server.  These will be included at the start of the arguments to the JVM|-Djava.security.egd=file:/dev/./urandom -Xms32m -Xmx512m
 
-### Docker network
-The Administration server container needs to be able to connect with the managed server container, so a common network is required.  Create this by running:
+## cic-app
+This build extends the cic-domain image and adds the CIC EAR file and further configuration that allows the CIC application to fully function.
 
-    docker network create --driver bridge cic-net
+### Building the image
+To build the image, from the root of the repo run:
 
-### Starting the Administration server container
-To start the Administration server in a new container, run:
+    docker build -t cic-app cic-app/
 
-    docker run -d -p 7001:7001 --name wladmin -h wladmin --network cic-net --env-file=cic.properties cic-domain container-scripts/startAdmin.sh
+## cic-apache
+This build extends the ch-apache image to add the CIC application static content (images, css and javascript etc).  The cic-apache container is designed to direct HTTP traffic to the managed servers instances.
 
-Around 20 secs after starting the container, the Administration server console will be available on http://127.0.0.1:7001/console on the host.  You can login with the user `weblogic` and the password you set for `ADMIN_PASSWORD`in the properties file.
+### Building the image
+To build the image, from the root of the repo run:
 
-### Starting the Managed server container
-To start the managed server container, run:
+    docker build -t cic-apache cic-apache/
 
-    docker run -d -p 7002:7001 --name wlserver1 -h wlserver1 --network cic-net --env-file=cic.properties cic-domain container-scripts/startNodeManager.sh
+## docker-compose
+docker-compose can be used to start all the required containers in one operation.
 
-The managed server container will now be running Node Manager, which can then be used to start up the managed server instance inside the container, using the Administration console.
+It uses the docker-compose.yml file included in the repository to start up the following:
+- Apache container
+- WebLogic Administration server container
+- Two managed server/nodemanager containers
 
+### Preparing for running
+
+The following steps should be taken before first starting the containers with docker-compose
+
+#### Environment variables
+In order to configure which version of the images to use when starting, there are two environment variables that can be set:
+|ENV VAR  | Description | Example| Default
+|--|--|--|--
+|CIC_APACHE_IMAGE|The image repository and version to use for the cic-apache image|12345678910.dkr.ecr.eu-west-2.amazonaws.com/cic-apache:1.0|cic-apache (latest local image)
+|CIC_APP_IMAGE  |The image repository and version to use for the cic-app image  |12345678910.dkr.ecr.eu-west-2.amazonaws.com/cic-app:1.0|cic-app (latest local image)
+
+#### Properties file for application
+In addition, the CIC.properties file described under "Run time environment properties file" also needs to be present.
+
+#### running-servers directory
+Finally, the Apache logs and WebLogic managed server work directories are made available to, and persisted on the host via a bind mount to a local directory.  To create the directory run the following in the root of the checked out repository:
+
+    mkdir -p running-servers/apache
+
+### Starting up
+The following command, executed from the root of the repo,  can be used to start up all the containers required to run the CIC service:
+
+    docker-compose up -d
+
+
+### Accessing the Administration server
+After starting the containers, the Administration server console will be available on http://127.0.0.1:21001/console on the host.  You can login with the user `weblogic` and the password you set for `ADMIN_PASSWORD`in the properties file.
+
+### Starting the Managed servers 
+The managed server containers will be running Node Manager, which can then be used to start up the managed server instances inside the containers using the Administration console.
+
+### Accessing the CIC application
+After starting at least one managed server, via the Administration console, you should be able to access the application on http://127.0.0.1:21000
