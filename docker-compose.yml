@@ -28,7 +28,7 @@ services:
     hostname: wlserver1
     image: ${CIC_APP_IMAGE:-cic-app}
     ports:
-      - "21011:7001"
+      - "21011:7002"
     volumes:
       - type: bind
         source: ./running-servers
@@ -41,7 +41,7 @@ services:
     hostname: wlserver2
     image: ${CIC_APP_IMAGE:-cic-app}
     ports:
-      - "21012:7001"
+      - "21012:7003"
     volumes:
       - type: bind
         source: ./running-servers

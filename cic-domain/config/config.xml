@@ -57,7 +57,7 @@
       <file-count>7</file-count>
     </log>
     <machine>mach-wlserver1</machine>
-    <listen-port>7001</listen-port>
+    <listen-port>7002</listen-port>
     <cluster>wlcluster</cluster>
     <web-server>
       <web-server-log>
@@ -86,7 +86,7 @@
       <file-count>7</file-count>
     </log>
     <machine>mach-wlserver2</machine>
-    <listen-port>7001</listen-port>
+    <listen-port>7003</listen-port>
     <cluster>wlcluster</cluster>
     <web-server>
       <web-server-log>
