@@ -15,13 +15,13 @@ WORKDIR $ORACLE_HOME
 COPY --chown=weblogic:weblogic container-scripts container-scripts/
 
 # Initialise the domain using a standard template provided with WebLogic
-RUN $ORACLE_HOME/wlserver/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/create-domain.py 
+RUN $ORACLE_HOME/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/create-domain.py 
 
 # Copy across a custom config.xml and cic-jdbc.xml
 COPY --chown=weblogic:weblogic config ${DOMAIN_NAME}/config/
 
 # Set the credentials in the custom config.xml
-RUN $ORACLE_HOME/wlserver/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/set-credentials.py && \
+RUN $ORACLE_HOME/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/set-credentials.py && \
     chmod 754 container-scripts/*.sh
 
 CMD ["bash"]
