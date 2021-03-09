@@ -14,8 +14,7 @@ RUN chmod 754 container-scripts/*.sh && \
     mkdir -p ${DOMAIN_NAME}/upload && \
     curl ${CIC_ZIP_URL} -o ${DOMAIN_NAME}/upload/${RELEASE_ARTIFACT}  && \
     cd ${DOMAIN_NAME}/upload && \
-    unzip ${RELEASE_ARTIFACT} 
-
-COPY --chown=weblogic:weblogic cic-ear-1.0.ear ${DOMAIN_NAME}/upload/CIC.ear
+    unzip ${RELEASE_ARTIFACT} && \
+    mv cic-ear*.ear CIC.ear
 
 CMD ["bash"]
