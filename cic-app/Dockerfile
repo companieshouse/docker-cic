@@ -1,20 +1,19 @@
 FROM 169942020521.dkr.ecr.eu-west-2.amazonaws.com/cic-domain
 
-ARG RELEASE_ARTIFACT=cic-ear-1.0.zip
-ARG CIC_ZIP_URL=http://release.ch.gov.uk/chips/cics/${RELEASE_ARTIFACT}
-
 # Copy over the CIC application configuration file
 COPY --chown=weblogic:weblogic config.properties ${DOMAIN_NAME}
 
 # Copy over utility scripts
 COPY --chown=weblogic:weblogic container-scripts container-scripts/
 
-# Download the CIC ZIP file into the ${DOMAIN_NAME}/upload directory on the image
+# Set permissions on utility scripts and create upload folder to receive the cic ear file 
 RUN chmod 754 container-scripts/*.sh && \
-    mkdir -p ${DOMAIN_NAME}/upload && \
-    curl ${CIC_ZIP_URL} -o ${DOMAIN_NAME}/upload/${RELEASE_ARTIFACT}  && \
-    cd ${DOMAIN_NAME}/upload && \
-    unzip ${RELEASE_ARTIFACT} && \
+    mkdir -p ${DOMAIN_NAME}/upload
+
+COPY --chown=weblogic:weblogic ../source-code/cic-ear-*.zip ${DOMAIN_NAME}/upload/cic-ear.zip
+
+RUN cd ${DOMAIN_NAME}/upload && \
+    unzip cic-ear.zip && \
     mv cic-ear*.ear CIC.ear
 
 CMD ["bash"]
