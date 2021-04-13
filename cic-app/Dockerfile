@@ -1,4 +1,4 @@
-FROM cic-domain
+FROM 169942020521.dkr.ecr.eu-west-2.amazonaws.com/cic-domain
 
 ARG RELEASE_ARTIFACT=cic-ear-1.0.zip
 ARG CIC_ZIP_URL=http://release.ch.gov.uk/chips/cics/${RELEASE_ARTIFACT}
