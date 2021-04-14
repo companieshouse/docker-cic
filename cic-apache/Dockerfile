@@ -1,4 +1,4 @@
-FROM ch-serverjre as builder
+FROM 169942020521.dkr.ecr.eu-west-2.amazonaws.com/ch-serverjre as builder
 
 RUN mkdir -p apache/CICWEB
 
@@ -11,7 +11,7 @@ RUN cd apache && \
     cd CICWEB  && \
     jar xvf cic-web.war --directory CICWEB js/ images/ html/ css/ 
 
-FROM ch-apache
+FROM 169942020521.dkr.ecr.eu-west-2.amazonaws.com/ch-apache
 
 # Add section of Apache config for the CIC app
 COPY cic-http.conf conf
