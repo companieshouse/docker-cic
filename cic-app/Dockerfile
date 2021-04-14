@@ -10,7 +10,7 @@ COPY --chown=weblogic:weblogic container-scripts container-scripts/
 RUN chmod 754 container-scripts/*.sh && \
     mkdir -p ${DOMAIN_NAME}/upload
 
-COPY --chown=weblogic:weblogic artifacts/cic-*.zip ${DOMAIN_NAME}/upload/cic-ear.zip
+COPY --chown=weblogic:weblogic cic-*.zip ${DOMAIN_NAME}/upload/cic-ear.zip
 
 RUN cd ${DOMAIN_NAME}/upload && \
     unzip cic-ear.zip && \
