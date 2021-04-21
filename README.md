@@ -1,5 +1,5 @@
 # docker-cic
-Provides builds for cic-domain, cic-apache and cic-app images
+Provides builds for cic-domain image
 
 
 ## cic-domain
