@@ -1,5 +1,5 @@
 # docker-cic
-Provides builds for cic-domain, cic-apache and cic-app images
+Provides builds for cic-domain image
 
 
 ## cic-domain
@@ -30,22 +30,6 @@ In order to use the image, a number of environment properties need to be defined
 |START_ARGS|Any startup JVM arguments that should be used when starting the managed server|-Dmyarg=true -Dmyotherarg=false
 |USER_MEM_ARGS|JVM arguments for setting the GC and memory settings for the managed server.  These will be included at the start of the arguments to the JVM|-XX:+UseG1GC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xms712m -Xmx712m
 |ADMIN_MEM_ARGS|JVM arguments for setting the GC and memory settings for the admin server.  These will be included at the start of the arguments to the JVM|-Djava.security.egd=file:/dev/./urandom -Xms32m -Xmx512m
-
-## cic-app
-This build extends the cic-domain image and adds the CIC EAR file and further configuration that allows the CIC application to fully function.
-
-### Building the image
-To build the image, from the root of the repo run:
-
-    docker build -t cic-app cic-app/
-
-## cic-apache
-This build extends the ch-apache image to add the CIC application static content (images, css and javascript etc).  The cic-apache container is designed to direct HTTP traffic to the managed servers instances.
-
-### Building the image
-To build the image, from the root of the repo run:
-
-    docker build -t cic-apache cic-apache/
 
 ## docker-compose
 docker-compose can be used to start all the required containers in one operation.
