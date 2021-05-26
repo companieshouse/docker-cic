@@ -12,6 +12,25 @@
         <sec:name>DefaultIdentityAsserter</sec:name>
         <sec:active-type>AuthenticatedUser</sec:active-type>
       </sec:authentication-provider>
+      <sec:authentication-provider xsi:type="wls:active-directory-authenticatorType">
+        <sec:name>AD_LDAP</sec:name>
+        <sec:control-flag>SUFFICIENT</sec:control-flag>
+        <wls:host></wls:host>
+        <wls:port></wls:port>
+        <wls:ssl-enabled>true</wls:ssl-enabled>
+        <wls:user-name-attribute></wls:user-name-attribute>
+        <wls:principal></wls:principal>
+        <wls:user-base-dn></wls:user-base-dn>
+        <wls:credential-encrypted></wls:credential-encrypted>
+        <wls:cache-enabled>false</wls:cache-enabled>
+        <wls:user-from-name-filter>(&amp;(sAMAccountName=%u)(objectclass=user))</wls:user-from-name-filter>
+        <wls:group-base-dn></wls:group-base-dn>
+        <wls:group-from-name-filter>(&amp;amp;(member=%M)(objectclass=groupofnames))</wls:group-from-name-filter>
+        <wls:connect-timeout>5</wls:connect-timeout>
+        <wls:static-group-object-class>organizationalUnit</wls:static-group-object-class>
+        <wls:static-group-name-attribute></wls:static-group-name-attribute>
+        <wls:static-group-dns-from-member-dn-filter>(&amp;amp;(member=%M)(objectclass=groupofnames))</wls:static-group-dns-from-member-dn-filter>
+      </sec:authentication-provider>
       <sec:role-mapper xmlns:xac="http://xmlns.oracle.com/weblogic/security/xacml" xsi:type="xac:xacml-role-mapperType">
         <sec:name>XACMLRoleMapper</sec:name>
       </sec:role-mapper>
