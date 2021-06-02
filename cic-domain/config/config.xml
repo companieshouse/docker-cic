@@ -64,12 +64,17 @@
   </security-configuration>
   <server>
     <name>wladmin</name>
+    <ssl>
+      <hostname-verifier xsi:nil="true"></hostname-verifier>
+      <hostname-verification-ignored>true</hostname-verification-ignored>
+    </ssl>
     <listen-address>wladmin</listen-address>
   </server>
   <server>
     <name>wlserver1</name>
     <ssl>
-      <enabled>false</enabled>
+      <hostname-verifier xsi:nil="true"></hostname-verifier>
+      <hostname-verification-ignored>true</hostname-verification-ignored>
     </ssl>
     <log>
       <rotation-type>byTime</rotation-type>
@@ -98,7 +103,8 @@
   <server>
     <name>wlserver2</name>
     <ssl>
-      <enabled>false</enabled>
+      <hostname-verifier xsi:nil="true"></hostname-verifier>
+      <hostname-verification-ignored>true</hostname-verification-ignored>
     </ssl>
     <log>
       <rotation-type>byTime</rotation-type>
