@@ -7,6 +7,7 @@
     <realm>
       <sec:authentication-provider xsi:type="wls:default-authenticatorType">
         <sec:name>DefaultAuthenticator</sec:name>
+        <sec:control-flag>SUFFICIENT</sec:control-flag>
       </sec:authentication-provider>
       <sec:authentication-provider xsi:type="wls:default-identity-asserterType">
         <sec:name>DefaultIdentityAsserter</sec:name>
