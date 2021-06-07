@@ -20,6 +20,9 @@ RUN $ORACLE_HOME/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning contain
 # Copy across a custom config.xml and cic-jdbc.xml
 COPY --chown=weblogic:weblogic config ${DOMAIN_NAME}/config/
 
+# Copy across the custom authenticator
+COPY --chown=weblogic:weblogic CicsAuthenticator.jar ${ORACLE_HOME}/wlserver/server/lib/mbeantypes
+
 # Set the credentials in the custom config.xml
 RUN $ORACLE_HOME/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/set-credentials.py && \
     chmod 754 container-scripts/*.sh

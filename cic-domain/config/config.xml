@@ -32,6 +32,10 @@
         <wls:static-group-name-attribute>cn</wls:static-group-name-attribute>
         <wls:static-group-dns-from-member-dn-filter>(&amp;(member=%M)(objectclass=group))</wls:static-group-dns-from-member-dn-filter>
       </sec:authentication-provider>
+      <sec:authentication-provider xmlns:ext="http://xmlns.oracle.com/weblogic/security/extension" xsi:type="ext:cics-authenticatorType">
+        <sec:name>CicsDBAuthenticator</sec:name>
+        <sec:control-flag>REQUIRED</sec:control-flag>
+      </sec:authentication-provider>
       <sec:role-mapper xmlns:xac="http://xmlns.oracle.com/weblogic/security/xacml" xsi:type="xac:xacml-role-mapperType">
         <sec:name>XACMLRoleMapper</sec:name>
       </sec:role-mapper>
