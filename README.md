@@ -30,6 +30,12 @@ In order to use the image, a number of environment properties need to be defined
 |START_ARGS|Any startup JVM arguments that should be used when starting the managed server|-Dmyarg=true -Dmyotherarg=false
 |USER_MEM_ARGS|JVM arguments for setting the GC and memory settings for the managed server.  These will be included at the start of the arguments to the JVM|-XX:+UseG1GC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xms712m -Xmx712m
 |ADMIN_MEM_ARGS|JVM arguments for setting the GC and memory settings for the admin server.  These will be included at the start of the arguments to the JVM|-Djava.security.egd=file:/dev/./urandom -Xms32m -Xmx512m
+|AD_HOST|The hostname or ip of the Active Directory server against which to authenticate users|ldap99.domain.ch
+|AD_PORT|The port to use for a SSL connection|636
+|AD_PRINCIPAL|The user in AD for connecting in order to authenticate other user logins|CN=myldpauser,OU=AD Groups,OU=MySection,OU=MyOrg,DC=MyDepartment,DC=local
+|AD_CREDENTIAL|The password of the user in AD for connecting in order to authenticate other user logins|password
+|AD_USER_BASE_DN|The base location under which users can be found via a subtree search|OU=MySection,OU=MyOrg,DC=MyDepartment,DC=local
+|AD_GROUP_BASE_DN|The base location under which groups can be found via a subtree search|OU=MySection,OU=MyOrg,DC=MyDepartment,DC=local
 
 ## docker-compose
 docker-compose can be used to start all the required containers in one operation.
