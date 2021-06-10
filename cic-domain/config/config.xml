@@ -7,10 +7,34 @@
     <realm>
       <sec:authentication-provider xsi:type="wls:default-authenticatorType">
         <sec:name>DefaultAuthenticator</sec:name>
+        <sec:control-flag>SUFFICIENT</sec:control-flag>
       </sec:authentication-provider>
       <sec:authentication-provider xsi:type="wls:default-identity-asserterType">
         <sec:name>DefaultIdentityAsserter</sec:name>
         <sec:active-type>AuthenticatedUser</sec:active-type>
+      </sec:authentication-provider>
+      <sec:authentication-provider xsi:type="wls:active-directory-authenticatorType">
+        <sec:name>AD_LDAP</sec:name>
+        <sec:control-flag>REQUIRED</sec:control-flag>
+        <wls:host></wls:host>
+        <wls:port></wls:port>
+        <wls:ssl-enabled>true</wls:ssl-enabled>
+        <wls:user-name-attribute>sAMAccountName</wls:user-name-attribute>
+        <wls:principal></wls:principal>
+        <wls:user-base-dn></wls:user-base-dn>
+        <wls:credential-encrypted></wls:credential-encrypted>
+        <wls:cache-enabled>false</wls:cache-enabled>
+        <wls:user-from-name-filter>(&amp;(sAMAccountName=%u)(objectclass=user))</wls:user-from-name-filter>
+        <wls:group-base-dn></wls:group-base-dn>
+        <wls:group-from-name-filter>(&amp;(cn=%g)(objectclass=group))</wls:group-from-name-filter>
+        <wls:connect-timeout>5</wls:connect-timeout>
+        <wls:static-group-object-class>group</wls:static-group-object-class>
+        <wls:static-group-name-attribute>cn</wls:static-group-name-attribute>
+        <wls:static-group-dns-from-member-dn-filter>(&amp;(member=%M)(objectclass=group))</wls:static-group-dns-from-member-dn-filter>
+      </sec:authentication-provider>
+      <sec:authentication-provider xmlns:ext="http://xmlns.oracle.com/weblogic/security/extension" xsi:type="ext:cics-authenticatorType">
+        <sec:name>CicsDBAuthenticator</sec:name>
+        <sec:control-flag>REQUIRED</sec:control-flag>
       </sec:authentication-provider>
       <sec:role-mapper xmlns:xac="http://xmlns.oracle.com/weblogic/security/xacml" xsi:type="xac:xacml-role-mapperType">
         <sec:name>XACMLRoleMapper</sec:name>
@@ -45,12 +69,17 @@
   </security-configuration>
   <server>
     <name>wladmin</name>
+    <ssl>
+      <hostname-verifier xsi:nil="true"></hostname-verifier>
+      <hostname-verification-ignored>true</hostname-verification-ignored>
+    </ssl>
     <listen-address>wladmin</listen-address>
   </server>
   <server>
     <name>wlserver1</name>
     <ssl>
-      <enabled>false</enabled>
+      <hostname-verifier xsi:nil="true"></hostname-verifier>
+      <hostname-verification-ignored>true</hostname-verification-ignored>
     </ssl>
     <log>
       <rotation-type>byTime</rotation-type>
@@ -79,7 +108,8 @@
   <server>
     <name>wlserver2</name>
     <ssl>
-      <enabled>false</enabled>
+      <hostname-verifier xsi:nil="true"></hostname-verifier>
+      <hostname-verification-ignored>true</hostname-verification-ignored>
     </ssl>
     <log>
       <rotation-type>byTime</rotation-type>

@@ -1,4 +1,4 @@
-FROM 169942020521.dkr.ecr.eu-west-2.amazonaws.com/ch-weblogic:1.3
+FROM 169942020521.dkr.ecr.eu-west-2.amazonaws.com/ch-weblogic:1.4.0
 
 # IMPORTANT - the default admin password should be supplied as a build arg
 # e.g. --build-arg ADMIN_PASSWORD=notsecure123.  This password will be visible in the image
@@ -19,6 +19,9 @@ RUN $ORACLE_HOME/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning contain
 
 # Copy across a custom config.xml and cic-jdbc.xml
 COPY --chown=weblogic:weblogic config ${DOMAIN_NAME}/config/
+
+# Copy across the custom authenticator
+COPY --chown=weblogic:weblogic CicsAuthenticator.jar ${ORACLE_HOME}/wlserver/server/lib/mbeantypes
 
 # Set the credentials in the custom config.xml
 RUN $ORACLE_HOME/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning container-scripts/set-credentials.py && \
