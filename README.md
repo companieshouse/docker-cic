@@ -60,7 +60,7 @@ In order to configure which version of the images to use when starting, there ar
 In addition, the CIC.properties file described under "Run time environment properties file" also needs to be present.
 
 #### running-servers directory
-Finally, the Apache logs and WebLogic managed server work directories are made available to, and persisted on the host via a bind mount to a local directory.  To create the directory run the following in the root of the checked out repository:
+Finally, the Apache logs and WebLogic managed server work directories are made available to, and persisted, on the host via a bind mount to a local directory.  To create the directory run the following in the root of the checked out repository:
 
     mkdir -p running-servers/apache
 
