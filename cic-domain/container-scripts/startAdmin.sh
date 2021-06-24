@@ -28,4 +28,7 @@ ${ORACLE_HOME}/wlserver/common/bin/wlst.sh ${ORACLE_HOME}/container-scripts/set-
 # Set the managed server startup arguments
 sed -i "s/@start-args@/${START_ARGS}/g" ${DOMAIN_HOME}/config/config.xml
 
+# Prevent Derby from being started
+export DERBY_FLAG=false
+
 ${DOMAIN_HOME}/bin/startWebLogic.sh $*
