@@ -36,7 +36,7 @@ services:
     networks:
       - cic-net
     env_file: ./cic.properties
-    entrypoint: container-scripts/setConfigAndStartNM.sh
+    entrypoint: container-scripts/startNodeManagerAndManagedServer.sh
   wlserver2:
     hostname: wlserver2
     image: ${CIC_APP_IMAGE:-cic-app:latest}
@@ -49,6 +49,6 @@ services:
     networks:
       - cic-net
     env_file: ./cic.properties
-    entrypoint: container-scripts/setConfigAndStartNM.sh
+    entrypoint: container-scripts/startNodeManagerAndManagedServer.sh
 networks:
   cic-net: 

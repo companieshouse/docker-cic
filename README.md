@@ -36,6 +36,7 @@ In order to use the image, a number of environment properties need to be defined
 |AD_CREDENTIAL|The password of the user in AD for connecting in order to authenticate other user logins|password
 |AD_USER_BASE_DN|The base location under which users can be found via a subtree search|OU=MySection, OU=MyOrg, DC=MyDepartment, DC=local
 |AD_GROUP_BASE_DN|The base location under which groups can be found via a subtree search|OU=MySection, OU=MyOrg, DC=MyDepartment, DC=local
+|AUTO_START_NODES|A list of managed server names to auto start when the container is launched|wlserver1,wlserver2
 
 ## docker-compose
 docker-compose can be used to start all the required containers in one operation.
@@ -74,7 +75,4 @@ The following command, executed from the root of the repo,  can be used to start
 After starting the containers, the Administration server console will be available on http://127.0.0.1:21001/console on the host.  You can login with the user `weblogic` and the password you set for `ADMIN_PASSWORD`in the properties file.
 
 ### Starting the Managed servers 
-The managed server containers will be running Node Manager, which can then be used to start up the managed server instances inside the containers using the Administration console.
-
-### Accessing the CIC application
-After starting at least one managed server, via the Administration console, you should be able to access the application on http://127.0.0.1:21000
+The managed server containers will be running Node Manager, which can then be used to start up the managed server instances inside the containers using the Administration console.  If the `AUTO_START_NODES` property is used, the servers listed will be started automatically.
