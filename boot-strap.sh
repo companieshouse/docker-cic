@@ -29,8 +29,6 @@ echo "APP_INSTANCE_NAME=${APP_INSTANCE_NAME}" | tee -a $LOG
 CONFIG_BASE_PATH=`aws ec2 describe-tags --filters "Name=resource-id,Values=${EC2_INSTANCE_ID}" --region eu-west-2 --output text|grep config-base-path|  awk '{print $5}'`
 echo "CONFIG_BASE_PATH=${CONFIG_BASE_PATH}" | tee -a $LOG
 
-echo "`env`" | grep IMAGE | tee -a $LOG
-
 # Check S3 and Config can be reached 
 aws s3 ls ${CONFIG_BASE_PATH} >/dev/null
 
@@ -40,7 +38,7 @@ if (( $? != 0 )) ; then
 fi
 
 # create server instance directory 
-mkdir ${INSTANCE_DIR}/${APP_INSTANCE_NAME}
+mkdir -p ${INSTANCE_DIR}/${APP_INSTANCE_NAME}
 
 # Copy properties, docker-compose file, app versions, etc. recursively to current directory
 aws s3 cp ${CONFIG_BASE_PATH}/ ./${INSTANCE_DIR}/${APP_INSTANCE_NAME} --recursive --exclude "*/*"
@@ -51,10 +49,12 @@ aws s3 cp ${CONFIG_BASE_PATH}/${APP_INSTANCE_NAME} ./${INSTANCE_DIR}/${APP_INSTA
 # CIC_APP_IMAGE
 . ./${INSTANCE_DIR}/${APP_INSTANCE_NAME}/app-image-versions
 
+echo "`env`" | grep IMAGE | tee -a $LOG
+
 # Log in to ECR ??? values passed in or hard coded ???
 aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin 169942020521.dkr.ecr.eu-west-2.amazonaws.com
 set +a
 
 ### RUN DOCKER COMPOSE
 echo "Starting docker compose file " | tee -a $LOG
-docker-compose up -d
+docker-compose -f ${INSTANCE_DIR}/${APP_INSTANCE_NAME}/docker-compose.yml up -d
