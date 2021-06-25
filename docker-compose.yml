@@ -13,7 +13,7 @@ services:
       - cic-net
   wladmin:
     hostname: wladmin
-    image: ${CIC_APP_IMAGE:-cic-app:latest}
+    image: ${CIC_APP_IMAGE:-cic-domain:latest}
     ports:
       - "21001:7001"
     volumes:
@@ -26,7 +26,7 @@ services:
     entrypoint: container-scripts/startAdmin.sh
   wlserver1:
     hostname: wlserver1
-    image: ${CIC_APP_IMAGE:-cic-app:latest}
+    image: ${CIC_APP_IMAGE:-cic-domain:latest}
     ports:
       - "21011:7001"
     volumes:
@@ -36,10 +36,10 @@ services:
     networks:
       - cic-net
     env_file: ./cic.properties
-    entrypoint: container-scripts/setConfigAndStartNM.sh
+    entrypoint: container-scripts/startNodeManagerAndManagedServer.sh
   wlserver2:
     hostname: wlserver2
-    image: ${CIC_APP_IMAGE:-cic-app:latest}
+    image: ${CIC_APP_IMAGE:-cic-domain:latest}
     ports:
       - "21012:7001"
     volumes:
@@ -49,6 +49,6 @@ services:
     networks:
       - cic-net
     env_file: ./cic.properties
-    entrypoint: container-scripts/setConfigAndStartNM.sh
+    entrypoint: container-scripts/startNodeManagerAndManagedServer.sh
 networks:
   cic-net: 
