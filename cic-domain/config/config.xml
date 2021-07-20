@@ -26,11 +26,13 @@
         <wls:cache-enabled>false</wls:cache-enabled>
         <wls:user-from-name-filter>(&amp;(sAMAccountName=%u)(objectclass=user))</wls:user-from-name-filter>
         <wls:group-base-dn></wls:group-base-dn>
+        <wls:group-search-scope>onelevel</wls:group-search-scope>
         <wls:group-from-name-filter>(&amp;(cn=%g)(objectclass=group))</wls:group-from-name-filter>
         <wls:connect-timeout>5</wls:connect-timeout>
         <wls:static-group-object-class>group</wls:static-group-object-class>
         <wls:static-group-name-attribute>cn</wls:static-group-name-attribute>
         <wls:static-group-dns-from-member-dn-filter>(&amp;(member=%M)(objectclass=group))</wls:static-group-dns-from-member-dn-filter>
+        <wls:group-membership-searching>off</wls:group-membership-searching>
       </sec:authentication-provider>
       <sec:authentication-provider xmlns:ext="http://xmlns.oracle.com/weblogic/security/extension" xsi:type="ext:cics-authenticatorType">
         <sec:name>CicsDBAuthenticator</sec:name>
@@ -140,6 +142,7 @@
   </server>
   <cluster>
     <name>wlcluster</name>
+    <cluster-address>wlserver1:7001,wlserver2:7001</cluster-address>
     <cluster-messaging-mode>unicast</cluster-messaging-mode>
   </cluster>
   <production-mode-enabled>true</production-mode-enabled>
