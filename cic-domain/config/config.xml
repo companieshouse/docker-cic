@@ -140,6 +140,7 @@
   </server>
   <cluster>
     <name>wlcluster</name>
+    <cluster-address>wlserver1:7001,wlserver2:7001</cluster-address>
     <cluster-messaging-mode>unicast</cluster-messaging-mode>
   </cluster>
   <production-mode-enabled>true</production-mode-enabled>
