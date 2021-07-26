@@ -28,3 +28,4 @@ RUN $ORACLE_HOME/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning contain
     chmod 754 container-scripts/*.sh
 
 CMD ["bash"]
+
