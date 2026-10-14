@@ -1,8 +1,9 @@
 FROM 300288021642.dkr.ecr.eu-west-2.amazonaws.com/ch-weblogic:1.5.9
-
+###
 # IMPORTANT - the default admin password should be supplied as a build arg
 # e.g. --build-arg ADMIN_PASSWORD=notsecure123.  This password will be visible in the image
 # so MUST later be reset to a secure value when starting the admin container.
+###
 ARG ADMIN_PASSWORD
 
 ENV ORACLE_HOME=/apps/oracle \
